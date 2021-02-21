@@ -1,0 +1,61 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>31-3 Template, dynamically create HTML elements based on data</title>
+    <style>
+        #user-container{
+            margin: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            padding: 20px;
+        }
+        .user-info{
+            background-color: bisque;
+            width: 400px;
+            margin: 15px;
+            padding: 15px
+        }
+
+    </style>
+</head>
+<body>
+    <h1>31-3 Template, dynamically create HTML elements based on data</h1>
+    <div id="user-container">
+    </div>
+    <script>
+        fetch('https://jsonplaceholder.typicode.com/users')
+        .then(res => res.json())
+        .then(data => getUserData(data));
+
+        function getUserData(data){
+            let userInfo = '';
+            data.forEach(user => {
+            userInfo = userInfo +  `
+            <div class="user-info">
+            <p>Name:${user.name}</p>
+            <p>Phone: ${user.phone}</p>
+            <p>Email: ${user.email}</p>
+            <p>Website: ${user.website}</p>
+            <div><p>${user.company.name} <br>
+                ${user.company.catchPhrase} <br>
+                ${user.company.bs} <p> </div>
+            <p> Address:
+            <address>${user.address.city}, 
+                ${user.address.street}, Zip:
+                ${user.address.zipcode}</address>
+            <p>
+
+        </div>`;
+            });
+            
+console.log(userInfo);
+        const userContainer = document.getElementById('user-container');
+        userContainer.innerHTML = userInfo;
+        }
+
+
+    </script>
+</body>
+</html>
